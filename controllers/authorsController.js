@@ -55,4 +55,50 @@ router.post('/', (req, res) => {
   });
 });
 
+
+// GET Edit
+router.get('/:authorId/edit', (req, res) => {
+  // Query DB for author By ID So we can pre-populate the edit form
+  db.Author.findById(req.params.authorId, (err, foundAuthor) => {
+    if (err) return console.log(err);
+
+    const context = {
+      author: foundAuthor,
+    };
+
+    res.render('authors/edit', context);
+  });
+});
+
+
+// PUT Update
+router.put('/:authorId', (req, res) => {
+  // VALIDATE DATA (Coming soon)
+  // Query DB to update record by ID
+  db.Author.findByIdAndUpdate(
+    req.params.authorId,
+    req.body,
+    {new: true},
+    (err, updatedAuthor) => {
+      if (err) return console.log(err);
+
+      // Redirect to show route
+      res.redirect(`/authors/${updatedAuthor._id}`);
+    }
+  );
+});
+
+
+// DELETE Destroy
+router.delete('/:authorId', (req, res) => {
+  // Query DB to delete record by ID
+  db.Author.findByIdAndDelete(req.params.authorId, (err, deletedAuthor) => {
+    if (err) return console.log(err);
+
+    // Redirect to index route
+    res.redirect('/authors');
+  });
+});
+
+
 module.exports = router;

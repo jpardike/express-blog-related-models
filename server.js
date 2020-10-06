@@ -4,6 +4,7 @@
 // Custom Modules
 const express = require('express');
 const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
 const app = express();
 // DOTENV
 require('dotenv').config();
@@ -19,6 +20,10 @@ const ctrl = require('./controllers');
 // Body Parser - puts request data on req.body
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+
+
+// Method Override
+app.use(methodOverride('_method'));
 
 // -------------------------- ROUTES
 

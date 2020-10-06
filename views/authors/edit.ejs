@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Express Blog</title>
+</head>
+<body>
+  
+  <header>
+    <h1>Edit <%=author.name%>'s Info</h1>
+    <nav>
+      <ul>
+        <li>
+          <a href="/">Home</a>
+        </li>
+        <li>
+          <a href="/authors">Authors Index</a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Author Attributes:</h2>
+    <form action="/authors/<%= author._id %>?_method=PUT" method="post">
+      <input type="text" name="name" value="<%= author.name %>"/><br/><br/>
+
+      <input type="submit" value="Update Author"/>
+    </form>
+  </main>
+
+</body>
+</html>
