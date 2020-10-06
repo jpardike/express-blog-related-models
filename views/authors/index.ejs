@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Express Blog</title>
+</head>
+<body>
+  <h1>All Authors</h1>
+
+  <ul>
+    <% for(let i = 0; i < authors.length; i++){ %>
+        <li>
+          <a href="/authors/<%= authors[i]._id %>"><%= authors[i].name %></a>
+        </li>
+    <% } %>
+  </ul>
+
+</body>
+</html>

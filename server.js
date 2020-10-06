@@ -3,19 +3,36 @@
 // 3rd Party Modules
 // Custom Modules
 const express = require('express');
+const bodyParser = require('body-parser');
 const app = express();
-const PORT = 4000;
+// DOTENV
+require('dotenv').config();
+const PORT = process.env.PORT || 4000;
 
+// SET VIEW ENGINE
 app.set('view engine', 'ejs');
 
-// -------------------------- MIDDLEWARE
+// Controllers
+const ctrl = require('./controllers');
 
+// -------------------------- MIDDLEWARE
+// Body Parser - puts request data on req.body
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 
 // -------------------------- ROUTES
 
 // Home Route
 app.get('/', (req, res) => {
   res.render('index');
+});
+
+// Authors Routes
+app.use('/authors', ctrl.authors);
+
+// 404 Route
+app.use('*', (req, res) => {
+  res.render('404');
 });
 
 

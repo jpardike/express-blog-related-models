@@ -1,0 +1,58 @@
+const express = require('express');
+const router = express.Router();
+
+// Database
+const db = require('../models');
+
+// Current Path = '/authors'
+
+// GET Index
+router.get('/', (req, res) => {
+  // Query DB for all authors
+  db.Author.find({}, (err, allAuthors) => {
+    if (err) return console.log(err);
+
+    const context = {
+      authors: allAuthors,
+      title: 'All Authors'
+    };
+
+    res.render('authors/index', context);
+  });
+});
+
+
+// GET New
+router.get('/new', (req, res) => {
+  res.render('authors/new');
+});
+
+
+// GET SHOW
+router.get('/:authorId', (req, res) => {
+  // Query DB for author by ID
+  db.Author.findById(req.params.authorId, (err, foundAuthor) => {
+    if (err) return console.log(err);
+
+    const context = {
+      author: foundAuthor,
+    };
+
+    res.render('authors/show', context);
+  });
+});
+
+
+// POST Create
+router.post('/', (req, res) => {
+  // console.log(req.body);
+
+  // Query DB to create new author
+  db.Author.create(req.body, (err, newAuthor) => {
+    if (err) return console.log(err);
+
+    res.redirect('/authors');
+  });
+});
+
+module.exports = router;
