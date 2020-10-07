@@ -8,7 +8,7 @@
 <body>
   
   <header>
-    <h1>Show Page for <%= author.name %></h1>
+    <h1>Express Blog</h1>
     <nav>
       <ul>
         <li>
@@ -20,11 +20,18 @@
         <li>
           <a href="/authors/new">Add New Author</a>
         </li>
+        <li>
+          <a href="/articles">Articles Index</a>
+        </li>
+        <li>
+          <a href="/articles/new">Add New Articles</a>
+        </li>
       </ul>
     </nav>
   </header>
-
+  
   <main>
+    <h2>Show Page for <%= author.name %></h2>
     <section>
       <h2>Author Attributes:</h2>
       <ul>

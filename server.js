@@ -22,8 +22,8 @@ const ctrl = require('./controllers');
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
-// Logging middleware
-app.use(morgan('tiny'));
+// Logging middleware passing our own configuration
+app.use(morgan(':method :url'));
 // Method Override
 app.use(methodOverride('_method'));
 

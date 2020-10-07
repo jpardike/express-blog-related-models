@@ -8,23 +8,30 @@
 <body>
 
   <header>
-    <h1>Create an Author</h1>
+    <h1>Express Blog</h1>
     <nav>
       <ul>
         <li>
           <a href="/">Home</a>
         </li>
         <li>
-          <a href="/authors">Authors Index</a>
+          <a href="/authors">Author Index</a>
         </li>
         <li>
           <a href="/authors/new">Add New Author</a>
+        </li>
+        <li>
+          <a href="/articles">Articles Index</a>
+        </li>
+        <li>
+          <a href="/articles/new">Add New Articles</a>
         </li>
       </ul>
     </nav>
   </header>
 
   <main>
+    <h2>Create an Author</h2>
     <form action="/authors" method="POST">
       <label for="name">Name</label>
       <input type="text" id="name" name="name" />
