@@ -21,16 +21,28 @@ router.get('/', (req, res) => {
 
 // GET new
 router.get('/new', (req, res) => {
-  res.render('articles/new');
+  db.Author.find({}, (err, allAuthors) => {
+    if (err) return console.log(err);
+
+    const context = {
+      authors: allAuthors
+    };
+
+    res.render('articles/new', context);
+  });
 });
 
 // GET show
 router.get('/:articleId', (req, res) => {
-  db.Article.findById(req.params.articleId, (err, articleById) => {
-    if (err) return console.log(err);
-    
-    res.render('articles/show', articleById);
-  })
+  db.Article.findById(req.params.articleId)
+    .populate('author')
+    .exec((err, articleById) => {
+      if (err) return console.log(err);
+
+      console.log('articleById: ', articleById);
+      
+      res.render('articles/show', articleById);
+    });
 });
 
 // POST create
@@ -38,7 +50,16 @@ router.post('/', (req, res) => {
   db.Article.create(req.body, (err, newArticle) => {
     if (err) return console.log(err);
 
-    res.redirect(`/articles/${newArticle.id}`);
+    db.Author.findById(req.body.author, (err, foundAuthor) => {
+      if (err) return console.log(err);
+
+      foundAuthor.articles.push(newArticle._id);
+      foundAuthor.save((err, savedAuthor) => {
+        if (err) return console.log(err);
+
+        res.redirect(`/articles/${newArticle.id}`);
+      })
+    })
   });
 });
 
@@ -57,8 +78,23 @@ router.get('/:articleId/edit', (req, res) => {
 
 // DELETE destroy
 router.delete('/:articleId', (req, res) => {
-  db.Article.findByIdAndDelete(req.params.articleId, (err) => {
+  const articleId = req.params.articleId;
+
+  db.Article.findByIdAndDelete(articleId, (err) => {
     if (err) return console.log(err);
+
+    db.Author.findOne({'articles': articleId}, (err, foundAuthor) => {
+      if (err) return console.log(err);
+
+      console.log(articleId);
+
+      foundAuthor.articles.remove(articleId);
+      foundAuthor.save((err, updatedAuthor) => {
+        if (err) return console.log(err);
+
+        console.log('updatedAuthor: ', updatedAuthor);
+      })
+    })
 
     res.redirect('/articles');
   });
